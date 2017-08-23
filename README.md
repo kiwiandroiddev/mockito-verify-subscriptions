@@ -10,8 +10,8 @@ E.g. Given some repository interface with a method `getItems()` returning an `Ob
 verify(mockRepository, wasSubscribedTo()).getItems()
 ```
 
-Usage
------
+Basic Usage
+-----------
 
 First create your mock using `ReturnsTrackedObservables()` as its default Answer:
 ```kotlin
@@ -24,7 +24,10 @@ Now you can verify subscriptions to Observables returned from it by passing `was
 verify(mockRepository, wasSubscribedTo()).getItems()
 ```
 
-Or verify that it was never subscribed to:
+More Usage
+----------
+
+Verify that the mock's return value was never subscribed to with:
 
 ```kotlin
 verify(mockRepository, neverSubscribedTo()).getItems()
@@ -44,6 +47,8 @@ reset(mockRepository)
 
 verify(mockRepository, wasSubscribedTo()).getItems()    // will fail
 ```
+
+For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/SubscribedToTest.kt).
 
 Limitations
 -----------
