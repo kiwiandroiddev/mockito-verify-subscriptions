@@ -69,7 +69,7 @@ Add the JitPack repository to your root `build.gradle` at the end of repositorie
 ```groovy
 allprojects {
     repositories {
-        ...
+        // ...
         maven { url 'https://jitpack.io' }
     }
 }
