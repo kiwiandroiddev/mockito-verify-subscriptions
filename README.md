@@ -1,14 +1,8 @@
 # Mockito verification for RxJava subscriptions
 
-The [Mockito](http://site.mockito.org/) framework offers a powerful set of tools for verifying method calls on mocks. However, when testing interactions with mocks whose methods return RxJava Observables, verifying method calls is generally not enough. Rather, you want to know that  **Observables returned from the methods were actually subscribed to**.
+The [Mockito](http://site.mockito.org/) framework offers a powerful set of tools for verifying method calls on mocks. When testing RxJava-heavy code however, verifying method calls is generally not enough. Rather, you want to know that  **Observables returned from the methods were actually subscribed to**.
 
-This is a small extension to Mockito to allow subscriptions on Observables returned from mocks to be verified.
-
-E.g. Given some repository interface with a method `getItems()` returning an `Observable`, whether that observable was subscribed to during a test can be verified with:
-
-```kotlin
-verify(mockRepository, wasSubscribedTo()).getItems()
-```
+This is a small extension to Mockito to support subscription verifications.
 
 Basic Usage
 -----------
