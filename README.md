@@ -18,22 +18,22 @@ First create your mock using `ReturnsTrackedObservables()` as its default Answer
 val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedObservables())
 ```
 
-Now you can verify subscriptions to Observables returned from it by passing `wasSubscribed()` as the second parameter to `verify`:
+Now you can verify subscriptions to Observables returned from it by passing `wasSubscribedTo()` as the second parameter to `verify`:
 
 ```kotlin
-verify(mockRepository, wasSubscribed()).getItems()
+verify(mockRepository, wasSubscribedTo()).getItems()
 ```
 
 Or verify that it was never subscribed to:
 
 ```kotlin
-verify(mockRepository, neverSubscribed()).getItems()
+verify(mockRepository, neverSubscribedTo()).getItems()
 ```
 
 Argument matchers work as expected:
 
 ```kotlin
-verify(mockRepository, wasSubscribed()).getItems(limit = eq(10))
+verify(mockRepository, wasSubscribedTo()).getItems(limit = eq(10))
 ```
 
 Calling `reset` on a mock will reset recorded subscriptions, as with regular invocations:
@@ -44,6 +44,14 @@ reset(mockRepository)
 
 verify(mockRepository, wasSubscribedTo()).getItems()    // will fail
 ```
+
+Limitations
+-----------
+
+This is currently missing support for:
+* `Single` and `Completable` RxJava 1 types
+* RxJava 2 reactive types
+* In-order verifications
 
 Download
 --------
