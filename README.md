@@ -50,13 +50,14 @@ verify(mockRepository, wasSubscribedTo()).getItems()    // will fail
 
 For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/SubscribedToTest.kt).
 
-Limitations
------------
+Limitations (TODO)
+------------------
 
 This is currently missing support for:
 * `Single` and `Completable` RxJava 1 types
 * RxJava 2 reactive types
 * In-order verifications
+* No informative error when attempting to use the verification without creating the mock correctly
 
 Download
 --------
