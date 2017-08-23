@@ -15,6 +15,12 @@ Basic Usage
 
 First create your mock using `ReturnsTrackedObservables()` as its default Answer:
 ```kotlin
+interface Repository {
+    fun getItems(limit: Int = 1): Observable<String>
+}
+
+// ..
+    
 val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedObservables())
 ```
 
