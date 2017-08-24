@@ -24,8 +24,8 @@ Now you can verify subscriptions to Observables returned from it by passing `was
 verify(mockRepository, wasSubscribedTo()).getItems()
 ```
 
-More Usage
-----------
+More Usage Examples
+-------------------
 
 Verify that the mock's return value was never subscribed to with:
 
