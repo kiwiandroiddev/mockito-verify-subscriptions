@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/kiwiandroiddev/mockito-verify-subscriptions.svg)](https://jitpack.io/#kiwiandroiddev/mockito-verify-subscriptions)
+
 # Mockito verification for RxJava subscriptions
 
 The [Mockito](http://site.mockito.org/) framework offers a powerful set of tools for verifying method calls on mocks. When testing RxJava-heavy code however, verifying method calls is generally not enough. Rather, you want to know that  **reactive types (Observable, Single, Completable) returned from the methods were actually subscribed to**.
