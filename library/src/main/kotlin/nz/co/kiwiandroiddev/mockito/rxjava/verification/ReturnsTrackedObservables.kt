@@ -6,6 +6,7 @@ import org.mockito.internal.util.MockUtil
 import org.mockito.invocation.InvocationOnMock
 import rx.Completable
 import rx.Observable
+import rx.Single
 
 /**
  * Extends {@code org.mockito.internal.stubbing.defaultanswers.ReturnEmptyValues} to return a
@@ -35,6 +36,7 @@ class ReturnsTrackedObservables : ReturnsEmptyValues() {
         return when {
             returnType.isAssignableFrom(Observable::class.java) -> trackedObservable(invocation)
             returnType.isAssignableFrom(Completable::class.java) -> trackedCompletable(invocation)
+            returnType.isAssignableFrom(Single::class.java) -> trackedSingle(invocation)
             else -> super.answer(invocation)
         }
     }
@@ -51,6 +53,13 @@ class ReturnsTrackedObservables : ReturnsEmptyValues() {
                 recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
 
                 Completable.error(RuntimeException("missing stub completable for invocation: $invocation"))
+            }
+
+    private fun trackedSingle(invocation: InvocationOnMock): Single<Any> =
+            Single.defer {
+                recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
+
+                Single.error<Any>(RuntimeException("missing stub single for invocation: $invocation"))
             }
 
     private fun recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation: InvocationOnMock) {
