@@ -54,7 +54,6 @@ Limitations (TODO)
 ------------------
 
 This is currently missing support for:
-* `Single` and `Completable` RxJava 1 types
 * RxJava 2 reactive types
 * In-order verifications
 * No informative error when attempting to use the verification without creating the mock correctly
