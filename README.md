@@ -1,3 +1,4 @@
+[MIT License](http://img.shields.io/badge/license-MIT-green.svg) ](https://github.com/mockito/mockito/blob/master/LICENSE)
 [![](https://jitpack.io/v/kiwiandroiddev/mockito-verify-subscriptions.svg)](https://jitpack.io/#kiwiandroiddev/mockito-verify-subscriptions)
 
 # Mockito verification for RxJava subscriptions
