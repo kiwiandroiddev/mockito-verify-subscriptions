@@ -4,6 +4,7 @@ import nz.co.kiwiandroiddev.mockito.rxjava.verification.impl.SubscriptionOnDefau
 import org.mockito.internal.stubbing.defaultanswers.ReturnsEmptyValues
 import org.mockito.internal.util.MockUtil
 import org.mockito.invocation.InvocationOnMock
+import rx.Completable
 import rx.Observable
 
 /**
@@ -29,18 +30,27 @@ import rx.Observable
  * getDefaultAnswer() method to return an instance of this class.
  */
 class ReturnsTrackedObservables : ReturnsEmptyValues() {
-    override fun answer(invocation: InvocationOnMock): Any? =
-            if (invocation.method.returnType.isAssignableFrom(Observable::class.java)) {
-                trackedObservable(invocation)
-            } else {
-                super.answer(invocation)
-            }
+    override fun answer(invocation: InvocationOnMock): Any? {
+        val returnType = invocation.method.returnType
+        return when {
+            returnType.isAssignableFrom(Observable::class.java) -> trackedObservable(invocation)
+            returnType.isAssignableFrom(Completable::class.java) -> trackedCompletable(invocation)
+            else -> super.answer(invocation)
+        }
+    }
 
     private fun trackedObservable(invocation: InvocationOnMock): Observable<Any> =
             Observable.defer {
                 recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
 
-                Observable.error<Any>(RuntimeException("no mock observable defined for invocation: $invocation"))
+                Observable.error<Any>(RuntimeException("missing stub observable for invocation: $invocation"))
+            }
+
+    private fun trackedCompletable(invocation: InvocationOnMock): Completable =
+            Completable.defer {
+                recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
+
+                Completable.error(RuntimeException("missing stub completable for invocation: $invocation"))
             }
 
     private fun recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation: InvocationOnMock) {
