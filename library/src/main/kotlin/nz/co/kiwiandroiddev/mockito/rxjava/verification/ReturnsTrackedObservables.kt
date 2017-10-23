@@ -1,5 +1,6 @@
 package nz.co.kiwiandroiddev.mockito.rxjava.verification
 
+import io.reactivex.Maybe
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.impl.SubscriptionOnDefaultMockedObservableEvent
 import org.mockito.internal.stubbing.defaultanswers.ReturnsEmptyValues
 import org.mockito.internal.util.MockUtil
@@ -31,15 +32,18 @@ import rx.Single
  * getDefaultAnswer() method to return an instance of this class.
  */
 class ReturnsTrackedObservables : ReturnsEmptyValues() {
+
     override fun answer(invocation: InvocationOnMock): Any? {
-        val returnType = invocation.method.returnType
+        val methodReturnType = invocation.method.returnType
         return when {
-            returnType.isAssignableFrom(Observable::class.java) -> trackedObservable(invocation)
-            returnType.isAssignableFrom(Completable::class.java) -> trackedCompletable(invocation)
-            returnType.isAssignableFrom(Single::class.java) -> trackedSingle(invocation)
-            returnType.isAssignableFrom(io.reactivex.Observable::class.java) -> trackedRx2Observable(invocation)
-            returnType.isAssignableFrom(io.reactivex.Completable::class.java) -> trackedRx2Completable(invocation)
-            returnType.isAssignableFrom(io.reactivex.Single::class.java) -> trackedRx2Single(invocation)
+            methodReturnType.isAssignableFrom(Observable::class.java) -> trackedObservable(invocation)
+            methodReturnType.isAssignableFrom(Completable::class.java) -> trackedCompletable(invocation)
+            methodReturnType.isAssignableFrom(Single::class.java) -> trackedSingle(invocation)
+            methodReturnType.isAssignableFrom(io.reactivex.Observable::class.java) -> trackedRx2Observable(invocation)
+            methodReturnType.isAssignableFrom(io.reactivex.Completable::class.java) -> trackedRx2Completable(invocation)
+            methodReturnType.isAssignableFrom(io.reactivex.Single::class.java) -> trackedRx2Single(invocation)
+            methodReturnType.isAssignableFrom(io.reactivex.Maybe::class.java) -> trackedRx2Maybe(invocation)
+            methodReturnType.isAssignableFrom(io.reactivex.Flowable::class.java) -> trackedRx2Flowable(invocation)
             else -> super.answer(invocation)
         }
     }
@@ -72,6 +76,13 @@ class ReturnsTrackedObservables : ReturnsEmptyValues() {
                 io.reactivex.Observable.error<Any>(RuntimeException("missing stub observable for invocation: $invocation"))
             }
 
+    private fun trackedRx2Flowable(invocation: InvocationOnMock): io.reactivex.Flowable<Any> =
+            io.reactivex.Flowable.defer {
+                recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
+
+                io.reactivex.Flowable.error<Any>(RuntimeException("missing stub observable for invocation: $invocation"))
+            }
+
     private fun trackedRx2Completable(invocation: InvocationOnMock): io.reactivex.Completable =
             io.reactivex.Completable.defer {
                 recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
@@ -84,6 +95,13 @@ class ReturnsTrackedObservables : ReturnsEmptyValues() {
                 recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
 
                 io.reactivex.Single.error<Any>(RuntimeException("missing stub single for invocation: $invocation"))
+            }
+
+    private fun trackedRx2Maybe(invocation: InvocationOnMock): Maybe<Any> =
+            Maybe.defer {
+                recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
+
+                Maybe.error<Any>(RuntimeException("missing stub observable for invocation: $invocation"))
             }
 
     private fun recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation: InvocationOnMock) {
