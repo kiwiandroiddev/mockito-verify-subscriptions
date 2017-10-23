@@ -1,4 +1,4 @@
-package nz.co.kiwiandroiddev.mockito.rxjava.verification
+package nz.co.kiwiandroiddev.mockito.rxjava.verification.rxjava1
 
 import rx.Completable
 import rx.Observable

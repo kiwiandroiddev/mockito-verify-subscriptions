@@ -37,6 +37,9 @@ class ReturnsTrackedObservables : ReturnsEmptyValues() {
             returnType.isAssignableFrom(Observable::class.java) -> trackedObservable(invocation)
             returnType.isAssignableFrom(Completable::class.java) -> trackedCompletable(invocation)
             returnType.isAssignableFrom(Single::class.java) -> trackedSingle(invocation)
+            returnType.isAssignableFrom(io.reactivex.Observable::class.java) -> trackedRx2Observable(invocation)
+            returnType.isAssignableFrom(io.reactivex.Completable::class.java) -> trackedRx2Completable(invocation)
+            returnType.isAssignableFrom(io.reactivex.Single::class.java) -> trackedRx2Single(invocation)
             else -> super.answer(invocation)
         }
     }
@@ -60,6 +63,27 @@ class ReturnsTrackedObservables : ReturnsEmptyValues() {
                 recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
 
                 Single.error<Any>(RuntimeException("missing stub single for invocation: $invocation"))
+            }
+
+    private fun trackedRx2Observable(invocation: InvocationOnMock): io.reactivex.Observable<Any> =
+            io.reactivex.Observable.defer {
+                recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
+
+                io.reactivex.Observable.error<Any>(RuntimeException("missing stub observable for invocation: $invocation"))
+            }
+
+    private fun trackedRx2Completable(invocation: InvocationOnMock): io.reactivex.Completable =
+            io.reactivex.Completable.defer {
+                recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
+
+                io.reactivex.Completable.error(RuntimeException("missing stub completable for invocation: $invocation"))
+            }
+
+    private fun trackedRx2Single(invocation: InvocationOnMock): io.reactivex.Single<Any> =
+            io.reactivex.Single.defer {
+                recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation = invocation)
+
+                io.reactivex.Single.error<Any>(RuntimeException("missing stub single for invocation: $invocation"))
             }
 
     private fun recordSubscriptionAsHiddenInvocationOnMock(realMethodInvocation: InvocationOnMock) {

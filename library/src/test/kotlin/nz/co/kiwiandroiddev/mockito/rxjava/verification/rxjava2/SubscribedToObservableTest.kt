@@ -1,20 +1,23 @@
-package nz.co.kiwiandroiddev.mockito.rxjava.verification
+package nz.co.kiwiandroiddev.mockito.rxjava.verification.rxjava2
 
 import com.nhaarman.mockito_kotlin.*
+import io.reactivex.Observable
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.ReturnsTrackedObservables
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooLittleActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooManyActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.WantedButNotSubscribedTo
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.neverSubscribedTo
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.wasSubscribedTo
 import org.junit.Before
 import org.junit.Test
 import org.mockito.exceptions.verification.WantedButNotInvoked
-import rx.Completable
 
-class SubscribedToCompletableTest {
+class SubscribedToObservableTest {
 
     interface A {
-        fun a(): Completable
-        fun b(): Completable
-        fun c(a: String?): Completable
+        fun a(): Observable<String>
+        fun b(): Observable<String>
+        fun c(a: String?): Observable<String>
     }
 
     lateinit var mock1: A
@@ -52,29 +55,29 @@ class SubscribedToCompletableTest {
 
     @Test
     fun verifySubscribedTo_methodResultSubscribedTo_shouldPass() {
-        mock1.a().subscribeTestSubscriber()
+        mock1.a().subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).a()
     }
 
     @Test(expected = TooManyActualSubscriptions::class)
     fun verifySubscribedTo_methodResultSubscribedToTwice_shouldFailWithTooManySubscriptions() {
-        mock1.a().subscribeTestSubscriber()
-        mock1.a().subscribeTestSubscriber()
+        mock1.a().subscribeTestObserver()
+        mock1.a().subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).a()
     }
 
     @Test
     fun verifyOneInvocation_methodResultSubscribedTo_shouldPass() {
-        mock1.a().subscribeTestSubscriber()
+        mock1.a().subscribeTestObserver()
 
         verify(mock1, times(1)).a()
     }
 
     @Test(expected = WantedButNotSubscribedTo::class)
     fun verifySubscribedTo_mockResetAfterSubscription_shouldFail() {
-        mock1.a().subscribeTestSubscriber()
+        mock1.a().subscribeTestObserver()
 
         reset(mock1)
 
@@ -83,36 +86,36 @@ class SubscribedToCompletableTest {
 
     @Test(expected = WantedButNotSubscribedTo::class)
     fun verifySubscribedTo_differentMockSubscribedTo_shouldFail() {
-        mock2.a().subscribeTestSubscriber()
+        mock2.a().subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).a()
     }
 
     @Test(expected = WantedButNotSubscribedTo::class)
     fun verifySubscribedTo_differentMethodSubscribedTo_shouldFail() {
-        mock1.b().subscribeTestSubscriber()
+        mock1.b().subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).a()
     }
 
     @Test(expected = WantedButNotSubscribedTo::class)
     fun verifySubscribedTo_sameMethodDifferentArguments_shouldFail() {
-        mock1.c("foo").subscribeTestSubscriber()
+        mock1.c("foo").subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).c("bar")
     }
 
     @Test
     fun verifySubscribedTo_sameMethodSameArguments_shouldPass() {
-        mock1.c("foo").subscribeTestSubscriber()
+        mock1.c("foo").subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).c("foo")
     }
 
     @Test
     fun verifySubscribedTo_mutlipleCallsWithDifferentArguments_shouldPass() {
-        mock1.c("foo").subscribeTestSubscriber()
-        mock1.c("bar").subscribeTestSubscriber()
+        mock1.c("foo").subscribeTestObserver()
+        mock1.c("bar").subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).c("foo")
         verify(mock1, wasSubscribedTo()).c("bar")
@@ -120,7 +123,7 @@ class SubscribedToCompletableTest {
 
     @Test
     fun verifySubscribedTo_anyArgumentMatcherUsedAndMethodWasSubscribedTo_shouldPass() {
-        mock1.c("foo").subscribeTestSubscriber()
+        mock1.c("foo").subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).c(any())
     }
@@ -132,21 +135,21 @@ class SubscribedToCompletableTest {
 
     @Test
     fun verifySubscribedTo_equalArgumentMatcherUsedAndMethodWasSubscribedTo_shouldPass() {
-        mock1.c("foobar").subscribeTestSubscriber()
+        mock1.c("foobar").subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).c(eq("foobar"))
     }
 
     @Test(expected = WantedButNotSubscribedTo::class)
     fun verifySubscribedTo_isNullArgumentMatcherUsedAndMethodWasSubscribedToWithNonNullParam_shouldFail() {
-        mock1.c("foobar").subscribeTestSubscriber()
+        mock1.c("foobar").subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).c(isNull<String>())
     }
 
     @Test
     fun verifySubscribedTo_isNullArgumentMatcherUsedAndMethodWasSubscribedToWithNullParam_shouldPass() {
-        mock1.c(null).subscribeTestSubscriber()
+        mock1.c(null).subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo()).c(isNull<String>())
     }
@@ -158,7 +161,7 @@ class SubscribedToCompletableTest {
 
     @Test(expected = TooManyActualSubscriptions::class)
     fun verifyNeverSubscribedTo_wasSubscribedTo_shouldFail() {
-        mock1.a().subscribeTestSubscriber()
+        mock1.a().subscribeTestObserver()
 
         verify(mock1, neverSubscribedTo()).a()
     }
@@ -170,17 +173,9 @@ class SubscribedToCompletableTest {
 
     @Test(expected = TooLittleActualSubscriptions::class)
     fun verifySubscribedToTwice_subscribedToOnce_shouldFail() {
-        mock1.a().subscribeTestSubscriber()
+        mock1.a().subscribeTestObserver()
 
         verify(mock1, wasSubscribedTo(times = 2)).a()
-    }
-
-    @Test
-    fun defaultObservableSubscribedTo_shouldThrowErrorAboutMissingStub() {
-        val error = mock1.a().subscribeTestSubscriber()
-                .onErrorEvents.single()
-
-        assert(error.message == "missing stub completable for invocation: a.a();")
     }
 
 }

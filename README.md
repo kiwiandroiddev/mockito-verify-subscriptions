@@ -51,7 +51,7 @@ reset(mockRepository)
 verify(mockRepository, wasSubscribedTo()).getItems()    // will fail
 ```
 
-For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/SubscribedToTest.kt).
+For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/SubscribedToObservableTest.kt).
 
 Limitations (TODO)
 ------------------

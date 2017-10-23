@@ -1,9 +1,12 @@
-package nz.co.kiwiandroiddev.mockito.rxjava.verification
+package nz.co.kiwiandroiddev.mockito.rxjava.verification.rxjava1
 
 import com.nhaarman.mockito_kotlin.*
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.ReturnsTrackedObservables
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooLittleActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooManyActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.WantedButNotSubscribedTo
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.neverSubscribedTo
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.wasSubscribedTo
 import org.junit.Before
 import org.junit.Test
 import org.mockito.exceptions.verification.WantedButNotInvoked

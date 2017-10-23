@@ -1,23 +1,23 @@
-package nz.co.kiwiandroiddev.mockito.rxjava.verification
+package nz.co.kiwiandroiddev.mockito.rxjava.verification.rxjava1
 
 import com.nhaarman.mockito_kotlin.*
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.ReturnsTrackedObservables
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooLittleActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooManyActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.WantedButNotSubscribedTo
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.neverSubscribedTo
+import nz.co.kiwiandroiddev.mockito.rxjava.verification.wasSubscribedTo
 import org.junit.Before
 import org.junit.Test
 import org.mockito.exceptions.verification.WantedButNotInvoked
-import rx.Observable
+import rx.Completable
 
-/**
- * Created by matthewcl on 22/08/17.
- */
-class SubscribedToTest {
+class SubscribedToCompletableTest {
 
     interface A {
-        fun a(): Observable<String>
-        fun b(): Observable<String>
-        fun c(a: String?): Observable<String>
+        fun a(): Completable
+        fun b(): Completable
+        fun c(a: String?): Completable
     }
 
     lateinit var mock1: A
@@ -176,6 +176,14 @@ class SubscribedToTest {
         mock1.a().subscribeTestSubscriber()
 
         verify(mock1, wasSubscribedTo(times = 2)).a()
+    }
+
+    @Test
+    fun defaultObservableSubscribedTo_shouldThrowErrorAboutMissingStub() {
+        val error = mock1.a().subscribeTestSubscriber()
+                .onErrorEvents.single()
+
+        assert(error.message == "missing stub completable for invocation: a.a();")
     }
 
 }
