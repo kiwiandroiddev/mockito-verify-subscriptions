@@ -60,6 +60,7 @@ This is currently missing support for:
 * RxJava 2 reactive types
 * In-order verifications
 * No informative error when attempting to use the verification without creating the mock correctly
+* Subscriptions can't be currently be tracked if you provide your own stubs for observable-returning methods
 
 Download
 --------

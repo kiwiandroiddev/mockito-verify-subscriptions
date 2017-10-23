@@ -1,7 +1,6 @@
 package nz.co.kiwiandroiddev.mockito.rxjava.verification.rxjava1
 
 import com.nhaarman.mockito_kotlin.*
-import nz.co.kiwiandroiddev.mockito.rxjava.verification.ReturnsTrackedObservables
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooLittleActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooManyActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.WantedButNotSubscribedTo
@@ -25,8 +24,8 @@ class SubscribedToCompletableTest {
 
     @Before
     fun setUp() {
-        mock1 = mock(defaultAnswer = ReturnsTrackedObservables())
-        mock2 = mock(defaultAnswer = ReturnsTrackedObservables())
+        mock1 = mock(defaultAnswer = ReturnsTrackedRx1Observables())
+        mock2 = mock(defaultAnswer = ReturnsTrackedRx1Observables())
     }
 
     @Test(expected = WantedButNotInvoked::class)
