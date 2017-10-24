@@ -20,9 +20,11 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile "org.mockito:mockito-core:$mockito_version"
-    compile "com.nhaarman:mockito-kotlin-kt1.1:$mockito_kotlin_version"
+    compile(
+            "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version",
+            "org.mockito:mockito-core:$mockito_version",
+            "com.nhaarman:mockito-kotlin-kt1.1:$mockito_kotlin_version"
+    )
 
     testCompile "junit:junit:$junit_version"
 }
