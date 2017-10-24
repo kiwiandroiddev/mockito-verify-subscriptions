@@ -5,26 +5,28 @@
 
 [Mockito](http://site.mockito.org/) offers a powerful set of tools for JVM developers to create mock dependencies and verify particular method calls on them.
 
-However, when your mocks return RxJava types (e.g. Observable, Single, Completable) you often want to go a step further and verify that the **reactive objects returned from your mocks were actually subscribed to**.
+However, when your mocks return async RxJava types (e.g. Observable, Single, Completable) you often want to go a step further and verify that the **reactive objects returned from your mocks were actually subscribed to**.
 
-This is a small extension to Mockito to allow you to do this.
+This is a small extension to Mockito that allows you to do this.
+
+More generally, this extension aims to allow you to verify asynchronous "invocations" on mocks in addition to regular synchronous ones, with minimal boilerplate code and impact on readability.
 
 Basic Usage
 -----------
 
-Given some dependency you'd like to mock:
+Given a dependency you'd like to mock:
 ```kotlin
 interface Repository {
     fun getItems(): Observable<String>
 }
 ```
 
-Create your mock passing a `ReturnsTrackedRx1Observables()` (or `ReturnsTrackedRx2Observables()` for RxJava2) as its default [Answer](https://static.javadoc.io/org.mockito/mockito-core/2.10.0/org/mockito/stubbing/Answer.html):
+Create your mock passing a `ReturnsTrackedRx1Observables()` as its default [Answer](https://static.javadoc.io/org.mockito/mockito-core/2.10.0/org/mockito/stubbing/Answer.html):
 ```kotlin
 val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedRx1Observables())
 ```
 
-Now you can verify subscriptions on it by passing `wasSubscribedTo()` to `verify` calls:
+You can now verify subscriptions on it by passing `wasSubscribedTo()` to `verify` calls:
 
 ```kotlin
 verify(mockRepository, wasSubscribedTo()).getItems()
@@ -57,6 +59,16 @@ verify(mockRepository, wasSubscribedTo()).getItems()    // will fail!
 ```
 
 For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/SubscribedToObservableTest.kt).
+
+RxJava 1 Support
+----------------
+
+`wasSubscribedTo()` will detect subscriptions on RxJava1 base types (`Observable`, `Completable` and `Single`) on mocks created with `ReturnsTrackedRx1Observables()`.
+
+RxJava 2 Support
+----------------
+
+`wasSubscribedTo()` will detect subscriptions on RxJava2 base types (`Flowable`, `Observable`, `Completable`, `Single` and `Maybe`) on mocks created with `ReturnsTrackedRx2Observables()`.
 
 Limitations (TODO)
 ------------------
