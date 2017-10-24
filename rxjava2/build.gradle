@@ -1,7 +1,9 @@
 group 'nz.co.kiwiandroiddev'
-version '0.1-SNAPSHOT'
+version library_version
 
 buildscript {
+    ext.rxjava2_version = '2.1.5'
+
     repositories {
         mavenCentral()
     }
@@ -21,12 +23,13 @@ repositories {
 
 dependencies {
     compile project(':library')
-    compile "io.reactivex.rxjava2:rxjava:2.1.5"
+
+    compile "io.reactivex.rxjava2:rxjava:$rxjava2_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "org.mockito:mockito-core:$mockito_version"
     compile "com.nhaarman:mockito-kotlin-kt1.1:$mockito_kotlin_version"
 
-    testCompile "junit:junit:4.12"
+    testCompile "junit:junit:$junit_version"
 }
 
 compileKotlin {
