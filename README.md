@@ -21,9 +21,10 @@ interface Repository {
 }
 ```
 
-Create your mock passing a `ReturnsTrackedRx1Observables()` as its default [Answer](https://static.javadoc.io/org.mockito/mockito-core/2.10.0/org/mockito/stubbing/Answer.html):
+Create your mock passing a `
+Rx1Observables()` as its default [Answer](https://static.javadoc.io/org.mockito/mockito-core/2.10.0/org/mockito/stubbing/Answer.html):
 ```kotlin
-val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedRx1Observables())
+val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedRx1Types())
 ```
 
 You can now verify subscriptions with `wasSubscribedTo()`:
@@ -63,12 +64,12 @@ For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/c
 RxJava 1 Support
 ----------------
 
-`wasSubscribedTo()` will detect subscriptions on RxJava1 base types (`Observable`, `Completable` and `Single`) on mocks created with `ReturnsTrackedRx1Observables()`.
+`wasSubscribedTo()` will detect subscriptions on RxJava1 base types (`Observable`, `Completable` and `Single`) on mocks created with `ReturnsTrackedRx1Types()`.
 
 RxJava 2 Support
 ----------------
 
-`wasSubscribedTo()` will detect subscriptions on RxJava2 base types (`Flowable`, `Observable`, `Completable`, `Single` and `Maybe`) on mocks created with `ReturnsTrackedRx2Observables()`.
+`wasSubscribedTo()` will detect subscriptions on RxJava2 base types (`Flowable`, `Observable`, `Completable`, `Single` and `Maybe`) on mocks created with `ReturnsTrackedRx2Types()`.
 
 Limitations (TODO)
 ------------------
