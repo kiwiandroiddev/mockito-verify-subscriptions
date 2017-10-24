@@ -1,3 +1,5 @@
 rootProject.name = 'mockito-verify-subscriptions'
 include 'library'
+include 'rxjava2'
+include 'rxjava1'
 
