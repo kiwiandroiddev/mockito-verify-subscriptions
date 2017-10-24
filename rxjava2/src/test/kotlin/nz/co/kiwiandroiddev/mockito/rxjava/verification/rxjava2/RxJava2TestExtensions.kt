@@ -1,6 +1,10 @@
 package nz.co.kiwiandroiddev.mockito.rxjava.verification.rxjava2
 
-import io.reactivex.*
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import io.reactivex.subscribers.TestSubscriber
 

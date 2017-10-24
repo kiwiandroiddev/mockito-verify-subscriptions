@@ -1,6 +1,12 @@
 package nz.co.kiwiandroiddev.mockito.rxjava.verification.rxjava1
 
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.isNull
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.reset
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooLittleActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.TooManyActualSubscriptions
 import nz.co.kiwiandroiddev.mockito.rxjava.verification.exceptions.WantedButNotSubscribedTo
@@ -24,8 +30,8 @@ class SubscribedToSingleTest {
 
     @Before
     fun setUp() {
-        mock1 = mock(defaultAnswer = ReturnsTrackedRx1Observables())
-        mock2 = mock(defaultAnswer = ReturnsTrackedRx1Observables())
+        mock1 = mock(defaultAnswer = ReturnsTrackedRx1Types())
+        mock2 = mock(defaultAnswer = ReturnsTrackedRx1Types())
     }
 
     @Test(expected = WantedButNotInvoked::class)
