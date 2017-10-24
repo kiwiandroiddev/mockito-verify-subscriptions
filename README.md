@@ -3,29 +3,36 @@
 
 # Mockito verification for RxJava subscriptions
 
-The [Mockito](http://site.mockito.org/) framework offers a powerful set of tools for verifying method calls on mocks. When testing RxJava-heavy code however, verifying method calls is generally not enough. Rather, you want to know that  **reactive types (Observable, Single, Completable) returned from the methods were actually subscribed to**.
+[Mockito](http://site.mockito.org/) offers a powerful set of tools for JVM developers to create mock dependencies and verify particular method calls on them.
 
-This is a small extension to Mockito to support subscription verifications.
+However, when your mocks return async RxJava types (e.g. Observable, Single, Completable) you often want to go a step further and verify that the **reactive objects returned from your mocks were actually subscribed to**.
+
+This is a small extension to Mockito that allows you to do this.
+
+More generally, this extension aims to allow you to verify asynchronous "invocations" on mocks in addition to regular synchronous ones, with minimal boilerplate code and impact on readability.
 
 Basic Usage
 -----------
 
-First create your mock using `ReturnsTrackedObservables()` as its default Answer:
+Given a dependency you'd like to mock:
 ```kotlin
 interface Repository {
-    fun getItems(limit: Int = 1): Observable<String>
+    fun getItems(): Observable<String>
 }
-
-// ..
-    
-val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedObservables())
 ```
 
-Now you can verify subscriptions to Observables returned from it by passing `wasSubscribedTo()` as the second parameter to `verify`:
+Create your mock passing a `ReturnsTrackedRx1Observables()` as its default [Answer](https://static.javadoc.io/org.mockito/mockito-core/2.10.0/org/mockito/stubbing/Answer.html):
+```kotlin
+val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedRx1Observables())
+```
+
+You can now verify subscriptions with `wasSubscribedTo()`:
 
 ```kotlin
 verify(mockRepository, wasSubscribedTo()).getItems()
 ```
+
+I.e. this will cause your test to fail if the `Observable` returned by `getItems()` has not been subscribed to by the time it's run.
 
 More Usage Examples
 -------------------
@@ -42,16 +49,26 @@ Argument matchers work as expected:
 verify(mockRepository, wasSubscribedTo()).getItems(limit = eq(10))
 ```
 
-Calling `reset` on a mock will reset recorded subscriptions, as with regular invocations:
+Calling `reset` on a mock will reset recorded subscriptions, just like regular invocations:
 ```kotlin
 mockRepository.getItems().subscribe({}, {})
 
 reset(mockRepository)
 
-verify(mockRepository, wasSubscribedTo()).getItems()    // will fail
+verify(mockRepository, wasSubscribedTo()).getItems()    // will fail!
 ```
 
 For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/SubscribedToObservableTest.kt).
+
+RxJava 1 Support
+----------------
+
+`wasSubscribedTo()` will detect subscriptions on RxJava1 base types (`Observable`, `Completable` and `Single`) on mocks created with `ReturnsTrackedRx1Observables()`.
+
+RxJava 2 Support
+----------------
+
+`wasSubscribedTo()` will detect subscriptions on RxJava2 base types (`Flowable`, `Observable`, `Completable`, `Single` and `Maybe`) on mocks created with `ReturnsTrackedRx2Observables()`.
 
 Limitations (TODO)
 ------------------
