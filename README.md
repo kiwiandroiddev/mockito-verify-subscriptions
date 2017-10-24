@@ -26,13 +26,13 @@ Create your mock passing a `ReturnsTrackedRx1Observables()` as its default [Answ
 val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedRx1Observables())
 ```
 
-You can now verify subscriptions on it by passing `wasSubscribedTo()` to `verify` calls:
+You can now verify subscriptions with `wasSubscribedTo()`:
 
 ```kotlin
 verify(mockRepository, wasSubscribedTo()).getItems()
 ```
 
-This will cause your test to fail if the `Observable` returned by `getItems()` has not been subscribed to by the time it's run.
+I.e. this will cause your test to fail if the `Observable` returned by `getItems()` has not been subscribed to by the time it's run.
 
 More Usage Examples
 -------------------
