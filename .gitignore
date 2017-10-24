@@ -6,3 +6,8 @@
 /build
 /captures
 /library/out
+/library/build
+/rxjava1/build
+/rxjava1/out
+/rxjava2/build
+/rxjava2/out

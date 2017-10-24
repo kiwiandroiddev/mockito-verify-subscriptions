@@ -1,7 +1,9 @@
 group 'nz.co.kiwiandroiddev'
-version '0.1-SNAPSHOT'
+version '0.2-SNAPSHOT'
 
 buildscript {
+    ext.rxjava_version = '1.3.0'
+
     repositories {
         mavenCentral()
     }
@@ -20,9 +22,18 @@ repositories {
 }
 
 dependencies {
+    compile project(':library')
+    compile "io.reactivex:rxjava:$rxjava_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "org.mockito:mockito-core:$mockito_version"
     compile "com.nhaarman:mockito-kotlin-kt1.1:$mockito_kotlin_version"
 
     testCompile "junit:junit:4.12"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
 }

@@ -8,7 +8,7 @@ import nz.co.kiwiandroiddev.mockito.rxjava.verification.impl.SubscriptionOnDefau
 import org.mockito.internal.verification.api.VerificationData
 import org.mockito.verification.VerificationMode
 
-internal class SubscribedTo(val timesWanted: Int = 1) : VerificationMode {
+class SubscribedTo(val timesWanted: Int = 1) : VerificationMode {
 
     override fun verify(data: VerificationData) {
         val allInvocations = data.allInvocations
