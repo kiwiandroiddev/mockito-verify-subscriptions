@@ -57,7 +57,6 @@ Limitations (TODO)
 ------------------
 
 This is currently missing support for:
-* RxJava 2 reactive types
 * In-order verifications
 * No informative error when attempting to use the verification without creating the mock correctly
 * Subscriptions can't be currently be tracked if you provide your own stubs for observable-returning methods
@@ -81,8 +80,17 @@ allprojects {
 
 Add the dependency to your app's `build.gradle`
 
+RxJava1:
+
 ```groovy
 dependencies {
-    compile 'com.github.kiwiandroiddev.mockito-verify-subscriptions:library:v0.1-alpha'
+    compile 'com.github.kiwiandroiddev.mockito-verify-subscriptions:rxjava1:v0.2-alpha'
+}
+```
+
+RxJava2:
+```groovy
+dependencies {
+    compile 'com.github.kiwiandroiddev.mockito-verify-subscriptions:rxjava2:v0.2-alpha'
 }
 ```
