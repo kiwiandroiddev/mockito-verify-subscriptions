@@ -3,9 +3,11 @@
 
 # Mockito verification for RxJava subscriptions
 
-The [Mockito](http://site.mockito.org/) framework offers a powerful set of tools for verifying method calls on mocks. When testing RxJava-heavy code however, verifying method calls is generally not enough. Rather, you want to know that  **reactive types (Observable, Single, Completable) returned from the methods were actually subscribed to**.
+[Mockito](http://site.mockito.org/) offers a powerful set of tools for JVM developers to create mock dependencies and verify particular method calls on them.
 
-This is a small extension to Mockito to support subscription verifications.
+However, when your mocks return RxJava types (e.g. Observable, Single, Completable) you often want to go a step further and verify that the **reactive objects returned from your mocks were actually subscribed to**.
+
+This is a small extension to Mockito to allow you to do this.
 
 Basic Usage
 -----------
