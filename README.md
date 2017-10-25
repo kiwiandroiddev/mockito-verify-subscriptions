@@ -59,7 +59,7 @@ reset(mockRepository)
 verify(mockRepository, wasSubscribedTo()).getItems()    // will fail!
 ```
 
-For more usage examples, check out the [Unit Tests](library/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/SubscribedToObservableTest.kt).
+For more usage examples, check out the [Unit Tests](rxjava2/src/test/kotlin/nz/co/kiwiandroiddev/mockito/rxjava/verification/rxjava2/SubscribedToObservableTest.kt).
 
 RxJava 1 Support
 ----------------
