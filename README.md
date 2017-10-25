@@ -22,7 +22,7 @@ interface Repository {
 ```
 
 Create your mock passing a `
-Rx1Observables()` as its default [Answer](https://static.javadoc.io/org.mockito/mockito-core/2.10.0/org/mockito/stubbing/Answer.html):
+ReturnsTrackedRx1Types()` or `ReturnsTrackedRx2Types()` as its default [Answer](https://static.javadoc.io/org.mockito/mockito-core/2.10.0/org/mockito/stubbing/Answer.html):
 ```kotlin
 val mockRepository = Mockito.mock(Repository::class.java, ReturnsTrackedRx1Types())
 ```
@@ -38,19 +38,19 @@ I.e. this will cause your test to fail if the `Observable` returned by `getItems
 More Usage Examples
 -------------------
 
-Verify that the mock's return value was never subscribed to with:
+Verify that the mock's return value was **never subscribed to** with:
 
 ```kotlin
 verify(mockRepository, neverSubscribedTo()).getItems()
 ```
 
-Argument matchers work as expected:
+**Argument matchers** work as expected:
 
 ```kotlin
 verify(mockRepository, wasSubscribedTo()).getItems(limit = eq(10))
 ```
 
-Calling `reset` on a mock will reset recorded subscriptions, just like regular invocations:
+Calling `reset` on a mock will **reset recorded subscriptions**, just like regular invocations:
 ```kotlin
 mockRepository.getItems().subscribe({}, {})
 
